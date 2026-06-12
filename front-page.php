@@ -239,4 +239,3 @@ $featured_monograph_ids = array( 211, 36, 177 );
 </main>
 
 <?php get_footer(); ?>
-
