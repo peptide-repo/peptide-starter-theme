@@ -13,7 +13,7 @@
 	"scripts": {
 		"lint": "phpcs",
 		"lint:fix": "phpcbf",
-		"test": "phpunit"
+		"test": "vendor/bin/phpunit"
 	},
 	"config": {
 		"allow-plugins": {

@@ -1,0 +1,10 @@
+{
+  "name": "peptide-starter-theme",
+  "version": "2.3.0",
+  "description": "WordPress theme for peptiderepo.com",
+  "private": true,
+  "scripts": {
+    "lint": "find assets/js -name '*.js' -print0 | xargs -0 -I{} node --check {}"
+  },
+  "license": "GPL-2.0-or-later"
+}
