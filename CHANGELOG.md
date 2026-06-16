@@ -1,5 +1,30 @@
 # Peptide Starter Theme - Changelog
 
+## [2.3.0] - 2026-06-16 — Adopt estate CI standard
+
+### Changed
+
+- `.github/workflows/ci.yml`: Replaced per-repo CI jobs with a thin caller
+  delegating to `peptiderepo/peptide-e2e/.github/workflows/ci.yml@main`
+  (`tests: wp-framework`, `has_js: true`, `line_limit_paths: inc`). Added
+  `workflow_call` trigger so `deploy.yml` can gate on this workflow.
+- `.github/workflows/deploy.yml`: Retired standalone `validate` job; deploy
+  now gates on the reusable CI via `uses: ./.github/workflows/ci.yml`.
+- `composer.json`: `test` script now calls `vendor/bin/phpunit` explicitly
+  (was bare `phpunit`).
+- `inc/helpers.php`: Split 311-line file at the nav-walker boundary; reduced
+  to 211 lines.
+
+### Added
+
+- `inc/nav-walker.php`: `Peptide_Starter_Nav_Walker` class and
+  `peptide_starter_primary_menu_fallback()` extracted from `inc/helpers.php`
+  (123 lines). Loaded in `functions.php` before `helpers.php`.
+- `package.json` / `package-lock.json`: Minimal npm manifest so the reusable
+  `lint-js` job can run `npm ci` and then execute `npm run lint` (which runs
+  `node --check` on `assets/js/**/*.js`).
+
+
 ## [2.2.2] - 2026-04-29 — Front page layout restructure
 
 ### Changed

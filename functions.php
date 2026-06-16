@@ -7,6 +7,8 @@
  * 300 lines and to make responsibilities discoverable.
  *
  * @see inc/config.php           — security configuration
+ * @see inc/nav-walker.php       — Peptide_Starter_Nav_Walker + primary menu fallback
+ * @see inc/helpers.php          — customizer helpers, gates, honeypot, CSV utility
  * @see inc/rate-limiter.php     — transient-backed rate limiter
  * @see inc/email-verification.php — token-gated email verification
  * @see inc/auth-handlers.php    — AJAX login + registration
@@ -14,7 +16,6 @@
  * @see inc/newsletter-admin.php — admin subscriber viewer + unsubscribe
  * @see inc/page-setup.php       — auto-create pages + v1.5.0 user migration
  * @see inc/mail-diagnostic.php  — admin deliverability test tool
- * @see inc/helpers.php          — nav walker, menu fallback, gates, utilities
  * @see inc/perf-asset-policy.php — asset dequeue + font slim + preconnect + defer
  *
  * @package peptide-starter
@@ -26,13 +27,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Theme constants.
-define( 'PEPTIDE_STARTER_VERSION', '2.2.2' );
+define( 'PEPTIDE_STARTER_VERSION', '2.3.0' );
 define( 'PEPTIDE_STARTER_DIR', get_template_directory() );
 define( 'PEPTIDE_STARTER_URI', get_template_directory_uri() );
 
 // Load feature modules. Order matters — config must load before anything
 // that calls peptide_starter_config_*; rate limiter before handlers.
 require_once PEPTIDE_STARTER_DIR . '/inc/config.php';
+require_once PEPTIDE_STARTER_DIR . '/inc/nav-walker.php';
 require_once PEPTIDE_STARTER_DIR . '/inc/helpers.php';
 require_once PEPTIDE_STARTER_DIR . '/inc/cloudflare-ips.php';
 require_once PEPTIDE_STARTER_DIR . '/inc/rate-limiter.php';

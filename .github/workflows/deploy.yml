@@ -9,30 +9,16 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  validate:
-    name: Validate PHP & JS
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: PHP Lint Check
-        run: |
-          find . -name "*.php" -not -path "./vendor/*" -not -path "./node_modules/*" -exec php -l {} \; | (grep -v "No syntax errors" || true) | head -20
-          test ${PIPESTATUS[0]} -eq 0
-      - name: Install PHPCS with WordPress standards
-        run: |
-          composer global config allow-plugins.dealerdirect/phpcodesniffer-composer-installer true
-          composer global require --dev squizlabs/php_codesniffer:"^3.0" wp-coding-standards/wpcs:"^3.0" phpcsstandards/phpcsutils:"^1.0"
-      - name: Run PHPCS (WordPress Core)
-        run: |
-          ~/.composer/vendor/bin/phpcs -s . || true  # non-blocking during theme rollout
-      - name: JS Syntax Check
-        run: |
-          find assets/js -name "*.js" -exec node --check {} \;
+  # Gate deploy on the reusable CI (lint-php, phpcs, phpunit, file-size, lint-js).
+  # ci.yml exposes workflow_call so it can be used here without re-running a
+  # separate workflow — the call result satisfies the branch-protection context
+  # "ci / ci (lint-php (8.1))" etc.
+  ci:
+    uses: ./.github/workflows/ci.yml
 
   deploy:
     name: Deploy (shared pipeline)
-    needs: validate
+    needs: ci
     uses: peptiderepo/peptide-e2e/.github/workflows/deploy-app.yml@main
     with:
       target_path: wp-content/themes/peptide-starter
