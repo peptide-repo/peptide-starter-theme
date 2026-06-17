@@ -4,6 +4,9 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: write
+
 concurrency:
   group: deploy-peptide-starter-theme
   cancel-in-progress: true
@@ -15,6 +18,7 @@ jobs:
   # "ci / ci (lint-php (8.1))" etc.
   ci:
     uses: ./.github/workflows/ci.yml
+    secrets: inherit
 
   deploy:
     name: Deploy (shared pipeline)
